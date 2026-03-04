@@ -110,16 +110,6 @@ export default function DataPage() {
             >
               <Search />
             </Input>
-
-            <Select
-              label="Ordenar por"
-              value={
-                orderingOptions.find((opt) => opt.value === ordering)?.label ||
-                "Más reciente"
-              }
-              onChange={handleOrderingChange}
-              options={orderingOptions.map((opt) => opt.label)}
-            />
           </div>
         </div>
 
