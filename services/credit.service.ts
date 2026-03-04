@@ -8,7 +8,7 @@ import {
 } from "@/types/credit.type";
 
 export class CreditService {
-  private static readonly BASE_URL = "/api/credit";
+  private static readonly BASE_URL = "/credit";
 
   private static notifySuccess(title: string, description?: string): void {
     if (typeof window === "undefined") {
