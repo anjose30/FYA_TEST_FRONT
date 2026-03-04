@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect } from "react";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
   useEffect(() => {
-    router.push("/form");
-  }, []);
-  return <></>;
+    router.push("/data");
+  }, [router]);
+
+  return null;
 }
