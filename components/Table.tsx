@@ -146,7 +146,7 @@ const Table: React.FC<TableProps> = ({ headers, rows, data }) => {
       <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
         <table className="min-w-full text-sm">
           <thead>
-            <tr className="bg-gradient-to-r from-base-color to-slate-800">
+            <tr className="bg-gradient-to-r from-base-color to-base-color/80">
               {displayHeaders.map((header, index) => (
                 <th
                   key={index}
