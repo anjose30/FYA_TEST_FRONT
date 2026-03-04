@@ -136,32 +136,6 @@ export default function DataPage() {
             <Table data={credits} />
           )}
         </div>
-
-        {totalPages > 1 && (
-          <div className="mt-6 flex items-center justify-between">
-            <div className="text-sm text-gray-600">
-              Página {page} de {totalPages} ({totalCount} créditos totales)
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={handlePrevPage}
-                disabled={page === 1 || isLoading}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                <ChevronLeft size={18} />
-                Anterior
-              </button>
-              <button
-                onClick={handleNextPage}
-                disabled={page >= totalPages || isLoading}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                Siguiente
-                <ChevronRight size={18} />
-              </button>
-            </div>
-          </div>
-        )}
         <div className="mt-6">
           <Button color="#01D37E" type="submit" label="CREAR REGISTRO" onClick={() => {router.push("/form")}}></Button>
         </div>
