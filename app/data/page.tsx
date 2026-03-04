@@ -6,7 +6,7 @@ import Input from "@/components/Input";
 import Select from "@/components/Select";
 import Button from "@/components/Button";
 import Table from "@/components/Table";
-import { Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, ChevronLeft, ChevronRight, Plus, TrendingUp, Users, DollarSign, LayoutDashboard } from "lucide-react";
 import { CreditService } from "@/services/credit.service";
 import { useRouter } from "next/navigation";
 
@@ -94,42 +94,145 @@ export default function DataPage() {
   const totalPages = Math.ceil(totalCount / pageSize);
 
   return (
-    <div className="min-h-screen w-full bg-gray-50 px-4 py-8">
-      <div className="w-full max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-zinc-900">
-          Créditos Registrados
-        </h1>
+    <div className="min-h-screen w-full bg-gray-50">
 
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
-              label="Buscar por nombre, ID o documento"
-              type="text"
-              value={search}
-              onChange={handleSearch}
-            >
-              <Search />
-            </Input>
+      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-30">
+        <div className="max-w-6xl mx-auto px-4 py-0">
+
+          <div className="flex items-center justify-between h-16 gap-4">
+
+            <div className="flex items-center gap-3">
+              <div
+                className="flex items-center justify-center w-9 h-9 rounded-lg"
+                style={{ backgroundColor: "#01D37E" }}
+              >
+                <LayoutDashboard className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <p className="text-xs text-gray-400 font-medium uppercase tracking-widest leading-none">
+                  Panel de gestión
+                </p>
+                <h1 className="text-lg font-bold text-zinc-900 leading-tight">
+                  Créditos Registrados
+                </h1>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              {totalCount > 0 && (
+                <div className="hidden sm:flex items-center gap-1 text-sm text-gray-500 bg-gray-100 rounded-lg px-3 py-1.5">
+                  <span>Página</span>
+                  <span className="font-semibold text-zinc-800">{page}</span>
+                  <span>de</span>
+                  <span className="font-semibold text-zinc-800">{totalPages}</span>
+
+                  <div className="flex items-center gap-0.5 ml-2">
+                    <button
+                      onClick={handlePrevPage}
+                      disabled={page === 1}
+                      className="p-1 rounded hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={handleNextPage}
+                      disabled={page >= totalPages}
+                      className="p-1 rounded hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              <button
+                onClick={() => router.push("/form")}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm font-semibold shadow-sm transition hover:brightness-105 active:scale-95"
+                style={{ backgroundColor: "#01D37E" }}
+              >
+                <Plus className="w-4 h-4" />
+                <span>Crear Registro</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-t border-gray-100 pt-3">
+
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-1.5">
+                <Users className="w-4 h-4 text-gray-400" />
+                <span className="text-sm text-gray-500">Total:</span>
+                <span className="text-sm font-bold text-zinc-800">{totalCount}</span>
+              </div>
+              <div className="w-px h-4 bg-gray-200" />
+              <div className="flex items-center gap-1.5">
+                <TrendingUp className="w-4 h-4" style={{ color: "#01D37E" }} />
+                <span className="text-sm text-gray-500">Mostrando:</span>
+                <span className="text-sm font-bold text-zinc-800">{credits.length}</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 w-full sm:w-auto">
+              <div className="flex-1 sm:w-64">
+                <Input
+                  label="Buscar"
+                  type="text"
+                  value={search}
+                  onChange={handleSearch}
+                >
+                  <Search />
+                </Input>
+              </div>
+            </div>
           </div>
         </div>
+      </header>
 
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <main className="max-w-6xl mx-auto px-4 py-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           {isLoading ? (
-            <div className="p-6 text-center text-gray-500">
-              Cargando créditos...
+            <div className="p-12 text-center">
+              <div
+                className="inline-block w-8 h-8 border-4 border-t-transparent rounded-full animate-spin mb-3"
+                style={{ borderColor: "#01D37E", borderTopColor: "transparent" }}
+              />
+              <p className="text-gray-400 text-sm">Cargando créditos…</p>
             </div>
           ) : credits.length === 0 ? (
-            <div className="p-6 text-center text-gray-500">
-              No se encontraron créditos
+            <div className="p-12 text-center">
+              <DollarSign className="w-10 h-10 text-gray-200 mx-auto mb-3" />
+              <p className="text-gray-400 text-sm">No se encontraron créditos</p>
             </div>
           ) : (
             <Table data={credits} />
           )}
         </div>
-        <div className="mt-6">
-          <Button color="#01D37E" type="submit" label="CREAR REGISTRO" onClick={() => {router.push("/form")}}></Button>
-        </div>
-      </div>
+
+        {totalCount > 0 && (
+          <div className="flex items-center justify-between mt-4 px-1">
+            <p className="text-sm text-gray-400">
+              {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, totalCount)} de{" "}
+              <span className="font-semibold text-zinc-700">{totalCount}</span> registros
+            </p>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handlePrevPage}
+                disabled={page === 1}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 text-sm text-gray-600 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition"
+              >
+                <ChevronLeft className="w-4 h-4" /> Anterior
+              </button>
+              <button
+                onClick={handleNextPage}
+                disabled={page >= totalPages}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 text-sm text-gray-600 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition"
+              >
+                Siguiente <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
+      </main>
     </div>
   );
 }
